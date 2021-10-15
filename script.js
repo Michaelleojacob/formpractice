@@ -32,3 +32,52 @@ function domManager({
   }
   return el;
 }
+
+const submitForm = (e) => {
+  e.preventDefault();
+  console.log(e);
+};
+
+function makeFormUI() {
+  const el = domManager({
+    classes: ['wrapper'],
+    attributes: [{ style: 'display:flex;' }],
+    children: [
+      domManager({
+        tagName: 'form',
+        classes: ['myform'],
+        attributes: [{ style: 'display:flex; flex-direction:column' }],
+        events: [{ type: 'submit', handler: submitForm }],
+        children: [
+          domManager({
+            tagName: 'input',
+            attributes: [{ placeholder: 'email' }],
+          }),
+          domManager({
+            tagName: 'input',
+            attributes: [{ placeholder: 'country' }],
+          }),
+          domManager({
+            tagName: 'input',
+            attributes: [{ placeholder: 'zip-code' }],
+          }),
+          domManager({
+            tagName: 'input',
+            attributes: [{ placeholder: 'password' }],
+          }),
+          domManager({
+            tagName: 'input',
+            attributes: [{ placeholder: 'confirm-password' }],
+          }),
+          domManager({ tagName: 'button', text: 'submit' }),
+        ],
+      }),
+    ],
+  });
+  return el;
+}
+
+const formUI = makeFormUI();
+console.log(formUI);
+const container = document.querySelector('#container');
+container.appendChild(formUI);
