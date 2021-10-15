@@ -55,7 +55,11 @@ function makeFormUI() {
               domManager({ text: 'email: ', classes: ['emailtxt'] }),
               domManager({
                 tagName: 'input',
-                attributes: [{ placeholder: 'email' }],
+                attributes: [
+                  { placeholder: 'email' },
+                  { type: 'email' },
+                  { required: 'true' },
+                ],
               }),
             ],
           }),
@@ -101,6 +105,11 @@ function makeFormUI() {
                 attributes: [{ placeholder: 'confirm-password' }],
               }),
             ],
+          }),
+          domManager({
+            tagName: 'button',
+            text: 'submit',
+            attributes: [{ style: 'margin-top:10px;' }],
           }),
         ],
       }),
