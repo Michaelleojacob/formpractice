@@ -93,12 +93,12 @@ function makeFormUI() {
             classes: ['inputWrapper'],
             children: [
               domManager({
-                text: 'confirm-passwrd: ',
-                classes: ['confirm-passwrdtxt'],
+                text: 'confirm-password: ',
+                classes: ['confirm-passwordtxt'],
               }),
               domManager({
                 tagName: 'input',
-                attributes: [{ placeholder: 'confirm-passwrd' }],
+                attributes: [{ placeholder: 'confirm-password' }],
               }),
             ],
           }),
