@@ -50,26 +50,58 @@ function makeFormUI() {
         events: [{ type: 'submit', handler: submitForm }],
         children: [
           domManager({
-            tagName: 'input',
-            attributes: [{ placeholder: 'email' }],
+            classes: ['inputWrapper'],
+            children: [
+              domManager({ text: 'email: ', classes: ['emailtxt'] }),
+              domManager({
+                tagName: 'input',
+                attributes: [{ placeholder: 'email' }],
+              }),
+            ],
           }),
           domManager({
-            tagName: 'input',
-            attributes: [{ placeholder: 'country' }],
+            classes: ['inputWrapper'],
+            children: [
+              domManager({ text: 'country: ', classes: ['countrytxt'] }),
+              domManager({
+                tagName: 'input',
+                attributes: [{ placeholder: 'country' }],
+              }),
+            ],
           }),
           domManager({
-            tagName: 'input',
-            attributes: [{ placeholder: 'zip-code' }],
+            classes: ['inputWrapper'],
+            children: [
+              domManager({ text: 'zip-code: ', classes: ['zip-codetxt'] }),
+              domManager({
+                tagName: 'input',
+                attributes: [{ placeholder: 'zip-code' }],
+              }),
+            ],
           }),
           domManager({
-            tagName: 'input',
-            attributes: [{ placeholder: 'password' }],
+            classes: ['inputWrapper'],
+            children: [
+              domManager({ text: 'password: ', classes: ['passwordtxt'] }),
+              domManager({
+                tagName: 'input',
+                attributes: [{ placeholder: 'password' }],
+              }),
+            ],
           }),
           domManager({
-            tagName: 'input',
-            attributes: [{ placeholder: 'confirm-password' }],
+            classes: ['inputWrapper'],
+            children: [
+              domManager({
+                text: 'confirm-passwrd: ',
+                classes: ['confirm-passwrdtxt'],
+              }),
+              domManager({
+                tagName: 'input',
+                attributes: [{ placeholder: 'confirm-passwrd' }],
+              }),
+            ],
           }),
-          domManager({ tagName: 'button', text: 'submit' }),
         ],
       }),
     ],
