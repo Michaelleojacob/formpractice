@@ -33,92 +33,136 @@ function domManager({
   return el;
 }
 
-const submitForm = (e) => {
-  e.preventDefault();
-  console.log(e);
-};
-
 function makeFormUI() {
-  const el = domManager({
-    classes: ['wrapper'],
-    attributes: [{ style: 'display:flex;' }],
-    children: [
-      domManager({
-        tagName: 'form',
-        classes: ['myform'],
-        attributes: [{ style: 'display:flex; flex-direction:column' }],
-        events: [{ type: 'submit', handler: submitForm }],
+  let timer;
+  const myobj = {
+    state: false,
+    setState(newState) {
+      this.state = newState;
+    },
+    getState() {
+      return this.state;
+    },
+    makeDomTree() {
+      this.tree = domManager({
+        classes: ['wrapper'],
+        attributes: [{ style: 'display:flex;' }],
         children: [
           domManager({
-            classes: ['inputWrapper'],
+            tagName: 'form',
+            classes: ['myform'],
+            attributes: [{ style: 'display:flex; flex-direction:column' }],
+            events: [{ type: 'submit', handler: this.submitForm }],
             children: [
-              domManager({ text: 'email: ', classes: ['emailtxt'] }),
               domManager({
-                tagName: 'input',
-                attributes: [
-                  { placeholder: 'email' },
-                  { type: 'email' },
-                  { required: 'true' },
+                classes: ['inputWrapper'],
+                children: [
+                  domManager({ text: 'email: ', classes: ['emailtxt'] }),
+                  domManager({
+                    tagName: 'input',
+                    attributes: [
+                      { placeholder: 'email' },
+                      { type: 'email' },
+                      { required: 'true' },
+                      { value: 'm@gmail.com' },
+                    ],
+                    events: [{ type: 'keyup', handler: this.handleEmail }],
+                  }),
                 ],
               }),
-            ],
-          }),
-          domManager({
-            classes: ['inputWrapper'],
-            children: [
-              domManager({ text: 'country: ', classes: ['countrytxt'] }),
               domManager({
-                tagName: 'input',
-                attributes: [{ placeholder: 'country' }],
-              }),
-            ],
-          }),
-          domManager({
-            classes: ['inputWrapper'],
-            children: [
-              domManager({ text: 'zip-code: ', classes: ['zip-codetxt'] }),
-              domManager({
-                tagName: 'input',
-                attributes: [{ placeholder: 'zip-code' }],
-              }),
-            ],
-          }),
-          domManager({
-            classes: ['inputWrapper'],
-            children: [
-              domManager({ text: 'password: ', classes: ['passwordtxt'] }),
-              domManager({
-                tagName: 'input',
-                attributes: [{ placeholder: 'password' }],
-              }),
-            ],
-          }),
-          domManager({
-            classes: ['inputWrapper'],
-            children: [
-              domManager({
-                text: 'confirm-password: ',
-                classes: ['confirm-passwordtxt'],
+                classes: ['inputWrapper'],
+                children: [
+                  domManager({ text: 'country: ', classes: ['countrytxt'] }),
+                  domManager({
+                    tagName: 'input',
+                    attributes: [
+                      { id: 'country' },
+                      { placeholder: 'country' },
+                      { required: 'true' },
+                    ],
+                  }),
+                ],
               }),
               domManager({
-                tagName: 'input',
-                attributes: [{ placeholder: 'confirm-password' }],
+                classes: ['inputWrapper'],
+                children: [
+                  domManager({ text: 'zip-code: ', classes: ['zip-codetxt'] }),
+                  domManager({
+                    tagName: 'input',
+                    attributes: [
+                      { placeholder: 'zip-code' },
+                      { maxlength: '5' },
+                      { required: 'true' },
+                    ],
+                  }),
+                ],
+              }),
+              domManager({
+                classes: ['inputWrapper'],
+                children: [
+                  domManager({ text: 'password: ', classes: ['passwordtxt'] }),
+                  domManager({
+                    tagName: 'input',
+                    attributes: [{ placeholder: 'password' }],
+                  }),
+                ],
+              }),
+              domManager({
+                classes: ['inputWrapper'],
+                children: [
+                  domManager({
+                    text: 'confirm-password: ',
+                    classes: ['confirm-passwordtxt'],
+                  }),
+                  domManager({
+                    tagName: 'input',
+                    attributes: [{ placeholder: 'confirm-password' }],
+                  }),
+                ],
+              }),
+              domManager({
+                tagName: 'button',
+                text: 'submit',
+                attributes: [{ style: 'margin-top:10px;' }],
               }),
             ],
-          }),
-          domManager({
-            tagName: 'button',
-            text: 'submit',
-            attributes: [{ style: 'margin-top:10px;' }],
           }),
         ],
-      }),
-    ],
-  });
-  return el;
+      });
+      this.country = this.tree.querySelector('#country');
+      return this.tree;
+    },
+    submitForm(e) {
+      e.preventDefault();
+      const submitState = myobj.getState();
+      console.log(submitState);
+      if (submitState === false) return;
+      console.log(e);
+    },
+    handleEmail(e) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        !this.value.includes('@') ? myobj.makeRed(this) : myobj.clearRed(this);
+        !this.value.includes('.com')
+          ? myobj.makeRed(this)
+          : myobj.clearRed(this);
+      }, 1000);
+    },
+    makeRed: (el) => {
+      el.setAttribute('style', 'border:2px solid red');
+      myobj.setState(false);
+    },
+    clearRed: (el) => {
+      el.setAttribute('style', 'border:');
+      myobj.setState(true);
+    },
+  };
+  return myobj;
 }
 
-const formUI = makeFormUI();
-console.log(formUI);
+const formObj = makeFormUI();
+console.log(formObj);
+const formUI = formObj.makeDomTree();
 const container = document.querySelector('#container');
 container.appendChild(formUI);
